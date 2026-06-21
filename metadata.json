@@ -1,0 +1,6 @@
+{
+  "name": "Hampers 4 You - Luxury Gifting Showcase",
+  "description": "An elegant, premium portfolio and personalized design planner for bespoke luxury hampers, ring platters, Nikah certificates, and custom event gifting curated with extreme attention to detail.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

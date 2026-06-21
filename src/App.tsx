@@ -10,8 +10,8 @@ import Footer from './components/Footer';
 import SavedConceptsDrawer from './components/SavedConceptsDrawer';
 import ArtisanalAdmin from './components/ArtisanalAdmin';
 import BespokeCatalogue from './components/BespokeCatalogue';
-import { ArrowUp, Star, Instagram, Sparkles } from 'lucide-react';
-import { PHONE_NUMBER, SERVICE_ITEMS, DEFAULT_CATALOGUE_ITEMS, DEFAULT_STORIES } from './data';
+import { ArrowUp, Instagram } from 'lucide-react';
+import { SERVICE_ITEMS, DEFAULT_CATALOGUE_ITEMS, DEFAULT_STORIES } from './data';
 import { ServiceItem, CatalogueItem, StoryItem, HeroImageItem } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -25,54 +25,18 @@ export default function App() {
   const [isSavedDrawerOpen, setIsSavedDrawerOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
-  const [adminInitialTab, setAdminInitialTab] = useState<'blueprint' | 'frontImages' | 'contact' | 'categories' | 'catalogue' | 'stories'>('blueprint');
-  const [adminInitialIndex, setAdminInitialIndex] = useState<number>(0);
-
-  const handleOpenAdminWithFocus = (
-    tab: 'blueprint' | 'frontImages' | 'contact' | 'categories' | 'catalogue' | 'stories',
-    index: number = 0
-  ) => {
-    setAdminInitialTab(tab);
-    setAdminInitialIndex(index);
-    setIsAdminOpen(true);
-  };
 
   const [heroImages, setHeroImages] = useState<HeroImageItem[]>(() => {
     const defaultHeroImages: HeroImageItem[] = [
-      {
-        id: "card1",
-        title: "The Gifting Chest",
-        image: luxuryHamperImg,
-        alt: "Luxury Customized Hamper Chest",
-      },
-      {
-        id: "card2",
-        title: "Illuminated Nikah Deed",
-        image: nikahCertificateImg,
-        alt: "Bespoke Illuminated Nikah Deed",
-      },
-      {
-        id: "card3",
-        title: "Traditional Ivory Ring Platter",
-        image: bespokeRingPlatterImg,
-        alt: "Bespoke Ceremonial Ring Platter",
-      },
-      {
-        id: "card4",
-        title: "Authentic Sealing Wax",
-        image: "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=600&auto=format&fit=crop",
-        alt: "Atelier Sealing Wax and Matrices",
-      },
+      { id: "card1", title: "The Gifting Chest", image: luxuryHamperImg, alt: "Luxury Customized Hamper Chest" },
+      { id: "card2", title: "Illuminated Nikah Deed", image: nikahCertificateImg, alt: "Bespoke Illuminated Nikah Deed" },
+      { id: "card3", title: "Traditional Ivory Ring Platter", image: bespokeRingPlatterImg, alt: "Bespoke Ceremonial Ring Platter" },
+      { id: "card4", title: "Authentic Sealing Wax", image: "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=600&auto=format&fit=crop", alt: "Atelier Sealing Wax and Matrices" },
     ];
-
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('hampers_hero_images');
       if (cached) {
-        try {
-          return JSON.parse(cached);
-        } catch (e) {
-          return defaultHeroImages;
-        }
+        try { return JSON.parse(cached); } catch (e) { return defaultHeroImages; }
       }
     }
     return defaultHeroImages;
@@ -84,70 +48,35 @@ export default function App() {
   };
 
   const handleResetHeroImages = () => {
-    const defaultHeroImages: HeroImageItem[] = [
-      {
-        id: "card1",
-        title: "The Gifting Chest",
-        image: luxuryHamperImg,
-        alt: "Luxury Customized Hamper Chest",
-      },
-      {
-        id: "card2",
-        title: "Illuminated Nikah Deed",
-        image: nikahCertificateImg,
-        alt: "Bespoke Illuminated Nikah Deed",
-      },
-      {
-        id: "card3",
-        title: "Traditional Ivory Ring Platter",
-        image: bespokeRingPlatterImg,
-        alt: "Bespoke Ceremonial Ring Platter",
-      },
-      {
-        id: "card4",
-        title: "Authentic Sealing Wax",
-        image: "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=600&auto=format&fit=crop",
-        alt: "Atelier Sealing Wax and Matrices",
-      },
-    ];
-    setHeroImages(defaultHeroImages);
     localStorage.removeItem('hampers_hero_images');
+    window.location.reload();
   };
+
   const [serviceItems, setServiceItems] = useState<ServiceItem[]>(() => {
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('hampers_service_catalog');
       if (cached) {
-        try {
-          return JSON.parse(cached);
-        } catch (e) {
-          return SERVICE_ITEMS;
-        }
+        try { return JSON.parse(cached); } catch (e) { return SERVICE_ITEMS; }
       }
     }
     return SERVICE_ITEMS;
   });
 
-  // Save modified specialties catalog data
   const handleSaveServiceItems = (updated: ServiceItem[]) => {
     setServiceItems(updated);
     localStorage.setItem('hampers_service_catalog', JSON.stringify(updated));
   };
 
-  // Restore fallback original specialties catalog data
   const handleResetServiceItems = () => {
-    setServiceItems(SERVICE_ITEMS);
     localStorage.removeItem('hampers_service_catalog');
+    window.location.reload();
   };
 
   const [catalogueItems, setCatalogueItems] = useState<CatalogueItem[]>(() => {
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('hampers_catalogue_items');
       if (cached) {
-        try {
-          return JSON.parse(cached);
-        } catch (e) {
-          return DEFAULT_CATALOGUE_ITEMS;
-        }
+        try { return JSON.parse(cached); } catch (e) { return DEFAULT_CATALOGUE_ITEMS; }
       }
     }
     return DEFAULT_CATALOGUE_ITEMS;
@@ -159,19 +88,15 @@ export default function App() {
   };
 
   const handleResetCatalogueItems = () => {
-    setCatalogueItems(DEFAULT_CATALOGUE_ITEMS);
     localStorage.removeItem('hampers_catalogue_items');
+    window.location.reload();
   };
 
   const [stories, setStories] = useState<StoryItem[]>(() => {
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('hampers_curated_stories');
       if (cached) {
-        try {
-          return JSON.parse(cached);
-        } catch (e) {
-          return DEFAULT_STORIES;
-        }
+        try { return JSON.parse(cached); } catch (e) { return DEFAULT_STORIES; }
       }
     }
     return DEFAULT_STORIES;
@@ -183,17 +108,13 @@ export default function App() {
   };
 
   const handleResetStories = () => {
-    setStories(DEFAULT_STORIES);
     localStorage.removeItem('hampers_curated_stories');
+    window.location.reload();
   };
 
-  // Load count of saved concepts on initial render
   useEffect(() => {
     refreshSavedCount();
-    
-    const handleScrollVisibility = () => {
-      setShowScrollTop(window.scrollY > 400);
-    };
+    const handleScrollVisibility = () => setShowScrollTop(window.scrollY > 400);
     window.addEventListener('scroll', handleScrollVisibility);
     return () => window.removeEventListener('scroll', handleScrollVisibility);
   }, []);
@@ -207,28 +128,16 @@ export default function App() {
       } else {
         setSavedCount(0);
       }
-    } catch (e) {
-      console.warn(e);
-    }
+    } catch (e) { console.warn(e); }
   };
 
   const handleOpenPlannerWithCategory = (serviceId: string) => {
-    // Passes category tag down to planning customizer
     setActivePlannerServiceId(serviceId);
-    
-    // Smooth scroll down to customized element
     const plannerSec = document.getElementById('planner');
-    if (plannerSec) {
-      plannerSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (plannerSec) plannerSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const handleLaunchDirectConsult = () => {
     const text = "Hi HAMPERS_4_YOU! I am checking your brand portfolio website and would like to start a direct design consultation session on Instagram.";
@@ -238,99 +147,92 @@ export default function App() {
     window.open("https://ig.me/m/hampers_4_you_by_tasdiqa", '_blank');
   };
 
+  const handleResetAll = () => {
+    if (window.confirm("Are you sure you want to reset all website content to defaults? This cannot be undone.")) {
+      localStorage.clear();
+      window.location.reload();
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#FAF8F5] relative antialiased" id="luxury-app-root">
+    <div className={`min-h-screen bg-[#FAF8F5] relative antialiased ${isAdminOpen ? 'overflow-hidden' : ''}`} id="luxury-app-root">
       
-      {/* Scroll-to-Top and Floating Instagram Consultation Node */}
-      <div className="fixed bottom-6 right-6 flex flex-col space-y-3 z-40" id="floating-actions-dock">
-        <AnimatePresence>
-          {showScrollTop && (
-            <motion.button
-              id="scroll-top-btn"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              onClick={scrollToTop}
-              className="p-3 bg-white/95 backdrop-blur-sm border border-[#EADFC9] shadow-md rounded-full text-[#2D2A26] hover:text-[#AF9467] transition-all hover:shadow cursor-pointer"
-              title="Return to top"
-            >
-              <ArrowUp className="h-4 w-4" />
-            </motion.button>
-          )}
-        </AnimatePresence>
+      {/* Floating Actions */}
+      {!isAdminOpen && (
+        <div className="fixed bottom-6 right-6 flex flex-col space-y-3 z-40" id="floating-actions-dock">
+          <AnimatePresence>
+            {showScrollTop && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                onClick={scrollToTop}
+                className="p-3 bg-white/95 backdrop-blur-sm border border-[#EADFC9] shadow-md rounded-full text-[#2D2A26] hover:text-[#AF9467] transition-all hover:shadow cursor-pointer"
+              >
+                <ArrowUp className="h-4 w-4" />
+              </motion.button>
+            )}
+          </AnimatePresence>
 
-        <button
-          id="floating-wa-btn"
-          onClick={handleLaunchDirectConsult}
-          className="p-4 bg-[#2D2A26] text-white hover:bg-[#AF9467] shadow-xl rounded-full flex items-center justify-center transition-all duration-300 relative group animate-bounce-slow cursor-pointer"
-          title="Direct Consultation over Instagram"
-        >
-          <Instagram className="h-5 w-5" />
-          <span className="absolute right-14 bg-white/95 text-[#2D2A26] text-[10px] font-sans font-bold tracking-widest uppercase border border-[#EADFC9] px-3 py-1.5 rounded-sm shadow-md pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-            Chat Creative Head (IG)
-          </span>
-        </button>
-      </div>
+          <button
+            onClick={handleLaunchDirectConsult}
+            className="p-4 bg-[#2D2A26] text-white hover:bg-[#AF9467] shadow-xl rounded-full flex items-center justify-center transition-all duration-300 relative group animate-bounce-slow cursor-pointer"
+          >
+            <Instagram className="h-5 w-5" />
+            <span className="absolute right-14 bg-white/95 text-[#2D2A26] text-[10px] font-sans font-bold tracking-widest uppercase border border-[#EADFC9] px-3 py-1.5 rounded-sm shadow-md pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+              Chat Creative Head (IG)
+            </span>
+          </button>
+        </div>
+      )}
 
-      {/* Header Panel */}
       <Header 
         savedConceptsCount={savedCount}
         onOpenPlanner={() => handleOpenPlannerWithCategory("hampers")}
         onOpenSavedDrawer={() => setIsSavedDrawerOpen(true)}
-        onOpenAdmin={() => handleOpenAdminWithFocus('blueprint', 0)}
+        onOpenAdmin={() => setIsAdminOpen(true)}
       />
 
-      {/* Main Sections Body */}
       <main id="luxury-main-content">
         <Hero 
           onPlanClick={() => handleOpenPlannerWithCategory("hampers")} 
           heroImages={heroImages} 
-          onEditHeroCard={(idx) => handleOpenAdminWithFocus('frontImages', idx)}
+          onEditHeroCard={() => setIsAdminOpen(true)}
         />
         
-        {/* Dynamic Atelier Visual Catalogue above the premium service gallery */}
         <BespokeCatalogue 
           items={catalogueItems}
-          onSelectStyle={(tagName) => {
+          onSelectStyle={() => {
             const plannerElement = document.getElementById('interactive-custom-planner');
-            if (plannerElement) {
-              plannerElement.scrollIntoView({ behavior: 'smooth' });
-            }
+            if (plannerElement) plannerElement.scrollIntoView({ behavior: 'smooth' });
           }}
-          onEditCatalogue={(idx) => handleOpenAdminWithFocus('catalogue', idx)}
+          onEditCatalogue={() => setIsAdminOpen(true)}
         />
         
-        {/* Gallery specialties list */}
         <GalleryShowcase 
           onPlanSpecific={handleOpenPlannerWithCategory} 
           serviceItems={serviceItems}
-          onEditCategory={(idx) => handleOpenAdminWithFocus('categories', idx)}
+          onEditCategory={() => setIsAdminOpen(true)}
         />
         
-        {/* Story Section */}
         <AboutFounder />
-
-        {/* Dynamic Studio Instagram Feed & Creative Materials Portfolio */}
+        
         <DynamicInstagramFeed 
           stories={stories} 
-          onEditStory={(idx) => handleOpenAdminWithFocus('stories', idx)}
+          onEditStory={() => setIsAdminOpen(true)}
         />
         
-        {/* Interactive Custom Planner */}
         <CustomPlanner 
           initialServiceId={activePlannerServiceId}
           onConceptsUpdated={(count) => setSavedCount(count)}
           onOpenSavedDrawer={() => setIsSavedDrawerOpen(true)}
         />
         
-        {/* Booking Timeline & FAQ Panel */}
         <BookingProcess />
       </main>
 
-      {/* Footer & Contact */}
       <Footer />
 
-      {/* Slide-out Cart/Wishlist Drawer panel */}
       <AnimatePresence>
         {isSavedDrawerOpen && (
           <SavedConceptsDrawer 
@@ -341,24 +243,19 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Artisanal Administration panel */}
+      {/* Full Screen Admin Panel */}
       <ArtisanalAdmin 
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
         serviceItems={serviceItems}
         onSaveItems={handleSaveServiceItems}
-        onResetDefaults={handleResetServiceItems}
+        onResetDefaults={handleResetAll}
         catalogueItems={catalogueItems}
         onSaveCatalogueItems={handleSaveCatalogueItems}
-        onResetCatalogueItems={handleResetCatalogueItems}
         stories={stories}
         onSaveStories={handleSaveStories}
-        onResetStories={handleResetStories}
         heroImages={heroImages}
         onSaveHeroImages={handleSaveHeroImages}
-        onResetHeroImages={handleResetHeroImages}
-        initialTab={adminInitialTab}
-        initialIndex={adminInitialIndex}
       />
 
     </div>

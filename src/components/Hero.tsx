@@ -18,7 +18,6 @@ const defaultImagesMap: { [key: string]: { src: string, title: string, alt: stri
   card1: { src: luxuryHamperImg, title: "The Gifting Chest", alt: "Luxury Customized Hamper Chest" },
   card2: { src: nikahCertificateImg, title: "Illuminated Nikah Deed", alt: "Bespoke Illuminated Nikah Deed" },
   card3: { src: bespokeRingPlatterImg, title: "Traditional Ivory Ring Platter", alt: "Bespoke Ceremonial Ring Platter" },
-  card4: { src: "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=600&auto=format&fit=crop", title: "Authentic Sealing Wax", alt: "Atelier Sealing Wax and Matrices" }
 };
 
 export default function Hero({ onPlanClick, heroImages, onEditHeroCard }: HeroProps) {
@@ -125,87 +124,91 @@ export default function Hero({ onPlanClick, heroImages, onEditHeroCard }: HeroPr
           </div>
         </div>
 
-        {/* Right Gallery Grid Side - 2x2 Grid Layout */}
+        {/* Right Gallery - 3-Image Catalogue Layout */}
         <div className="lg:col-span-5 w-full" id="hero-images-container">
-          <div className="grid grid-cols-2 gap-4 sm:gap-6">
+          <div className="flex flex-col gap-6">
             
-            {/* Card 1: Luxury Hamper Gifting Chest (Top Left) */}
-            <motion.div
-              id="hero-bg-card-1"
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.9 }}
-              className="bg-white p-2.5 rounded shadow-lg border border-[#EADFC9]/40 hover:shadow-2xl transition-all duration-300 hover:scale-105 group relative"
-            >
-              <div className="w-full aspect-square overflow-hidden rounded-sm bg-[#FAF8F5] relative">
-                <img
-                  src={getCardData('card1').image}
-                  alt={getCardData('card1').alt}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                {onEditHeroCard && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEditHeroCard(0);
-                    }}
-                    className="absolute top-2 right-2 bg-[#2D2A26]/85 backdrop-blur-xs text-white hover:bg-[#AF9467] p-1.5 rounded-full border border-white/10 shadow-md transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 z-30 flex items-center justify-center"
-                    title="Change Card 1 Image & Title"
-                  >
-                    <Edit3 className="h-3.5 w-3.5" />
-                  </button>
-                )}
-              </div>
-              <div className="pt-2 text-center">
-                <p className="font-serif text-[11px] italic text-[#544F49] line-clamp-2">{getCardData('card1').title}</p>
-              </div>
-            </motion.div>
+            {/* Top Row - 2 Images Side by Side */}
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              
+              {/* Card 1: Luxury Hamper Gifting Chest (Left) */}
+              <motion.div
+                id="hero-bg-card-1"
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.9 }}
+                className="bg-white p-3 rounded-lg shadow-lg border border-[#EADFC9]/40 hover:shadow-2xl transition-all duration-300 hover:scale-105 group relative"
+              >
+                <div className="w-full aspect-square overflow-hidden rounded-md bg-[#FAF8F5] relative">
+                  <img
+                    src={getCardData('card1').image}
+                    alt={getCardData('card1').alt}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                  {onEditHeroCard && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditHeroCard(0);
+                      }}
+                      className="absolute top-2 right-2 bg-[#2D2A26]/85 backdrop-blur-xs text-white hover:bg-[#AF9467] p-1.5 rounded-full border border-white/10 shadow-md transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 z-30 flex items-center justify-center"
+                      title="Change Card 1 Image & Title"
+                    >
+                      <Edit3 className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+                <div className="pt-3 text-center">
+                  <p className="font-serif text-sm italic text-[#544F49] line-clamp-2">{getCardData('card1').title}</p>
+                </div>
+              </motion.div>
 
-            {/* Card 2: Premium Nikah Certificate (Top Right) */}
+              {/* Card 2: Premium Nikah Certificate (Right) */}
+              <motion.div
+                id="hero-bg-card-2"
+                initial={{ opacity: 0, scale: 0.95, y: -15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.95, delay: 0.15 }}
+                className="bg-white p-3 rounded-lg shadow-lg border border-[#DECCB2]/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 group relative"
+              >
+                <div className="w-full aspect-square overflow-hidden rounded-md bg-[#FAF8F5] relative">
+                  <img
+                    src={getCardData('card2').image}
+                    alt={getCardData('card2').alt}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                  {onEditHeroCard && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditHeroCard(1);
+                      }}
+                      className="absolute top-2 right-2 bg-[#2D2A26]/85 backdrop-blur-xs text-white hover:bg-[#AF9467] p-1.5 rounded-full border border-white/10 shadow-md transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 z-30 flex items-center justify-center"
+                      title="Change Card 2 Image & Title"
+                    >
+                      <Edit3 className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+                <div className="pt-3 text-center">
+                  <p className="font-serif text-sm italic text-[#544F49] line-clamp-2">{getCardData('card2').title}</p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Bottom Row - 1 Centered Image (Larger) */}
             <motion.div
               id="hero-bg-card-3"
-              initial={{ opacity: 0, scale: 0.95, y: -15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.95, delay: 0.15 }}
-              className="bg-white p-2.5 rounded shadow-lg border border-[#DECCB2]/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 group relative"
-            >
-              <div className="w-full aspect-square overflow-hidden rounded-sm bg-[#FAF8F5] relative">
-                <img
-                  src={getCardData('card2').image}
-                  alt={getCardData('card2').alt}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                {onEditHeroCard && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEditHeroCard(1);
-                    }}
-                    className="absolute top-2 right-2 bg-[#2D2A26]/85 backdrop-blur-xs text-white hover:bg-[#AF9467] p-1.5 rounded-full border border-white/10 shadow-md transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 z-30 flex items-center justify-center"
-                    title="Change Card 2 Image & Title"
-                  >
-                    <Edit3 className="h-3.5 w-3.5" />
-                  </button>
-                )}
-              </div>
-              <div className="pt-2 text-center">
-                <p className="font-serif text-[11px] italic text-[#544F49] line-clamp-2">{getCardData('card2').title}</p>
-              </div>
-            </motion.div>
-
-            {/* Card 3: Bespoke Ceremonial Ring Platter (Bottom Left) */}
-            <motion.div
-              id="hero-bg-card-2"
-              initial={{ opacity: 0, scale: 0.95, rotate: 3 }}
+              initial={{ opacity: 0, scale: 0.95, rotate: 2 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="bg-white p-2.5 rounded shadow-lg border border-[#DECCB2]/50 hover:shadow-2xl transition-all duration-300 hover:scale-105 group relative"
+              className="bg-white p-3 rounded-lg shadow-lg border border-[#DECCB2]/50 hover:shadow-2xl transition-all duration-300 hover:scale-105 group relative mx-auto w-full sm:w-4/5"
             >
-              <div className="w-full aspect-square overflow-hidden rounded-sm bg-[#FAF8F5] relative">
+              <div className="w-full aspect-square overflow-hidden rounded-md bg-[#FAF8F5] relative">
                 <img
                   src={getCardData('card3').image}
                   alt={getCardData('card3').alt}
@@ -226,42 +229,8 @@ export default function Hero({ onPlanClick, heroImages, onEditHeroCard }: HeroPr
                   </button>
                 )}
               </div>
-              <div className="pt-2 text-center">
-                <p className="font-serif text-[11px] italic text-[#544F49] line-clamp-2">{getCardData('card3').title}</p>
-              </div>
-            </motion.div>
-
-            {/* Card 4: Authentic Sealing Wax & Stamps (Bottom Right) */}
-            <motion.div
-              id="hero-bg-card-4"
-              initial={{ opacity: 0, scale: 0.95, rotate: -4 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1.05, delay: 0.2 }}
-              className="bg-white p-2.5 rounded shadow-lg border border-[#DECCB2]/40 hover:shadow-2xl transition-all duration-300 hover:scale-105 group relative"
-            >
-              <div className="w-full aspect-square overflow-hidden rounded-sm bg-[#FAF8F5] relative">
-                <img
-                  src={getCardData('card4').image}
-                  alt={getCardData('card4').alt}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                {onEditHeroCard && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEditHeroCard(3);
-                    }}
-                    className="absolute top-2 right-2 bg-[#2D2A26]/85 backdrop-blur-xs text-white hover:bg-[#AF9467] p-1.5 rounded-full border border-white/10 shadow-md transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 z-30 flex items-center justify-center"
-                    title="Change Card 4 Image & Title"
-                  >
-                    <Edit3 className="h-3.5 w-3.5" />
-                  </button>
-                )}
-              </div>
-              <div className="pt-2 text-center">
-                <p className="font-serif text-[11px] italic text-[#544F49] line-clamp-2">{getCardData('card4').title}</p>
+              <div className="pt-3 text-center">
+                <p className="font-serif text-sm italic text-[#544F49] line-clamp-2">{getCardData('card3').title}</p>
               </div>
             </motion.div>
 

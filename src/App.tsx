@@ -31,20 +31,18 @@ export default function App() {
       { id: "card1", title: "The Gifting Chest", image: luxuryHamperImg, alt: "Luxury Customized Hamper Chest" },
       { id: "card2", title: "Illuminated Nikah Deed", image: nikahCertificateImg, alt: "Bespoke Illuminated Nikah Deed" },
       { id: "card3", title: "Traditional Ivory Ring Platter", image: bespokeRingPlatterImg, alt: "Bespoke Ceremonial Ring Platter" },
-      { id: "card4", title: "Authentic Sealing Wax", image: "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=600&auto=format&fit=crop", alt: "Atelier Sealing Wax and Matrices" },
     ];
-    if (typeof window !== 'undefined') {
-      const cached = localStorage.getItem('hampers_hero_images');
-      if (cached) {
-        try { return JSON.parse(cached); } catch (e) { return defaultHeroImages; }
-      }
-    }
     return defaultHeroImages;
   });
 
-  const handleSaveHeroImages = (updated: HeroImageItem[]) => {
+  const handleSaveHeroImages = async (updated: HeroImageItem[]) => {
     setHeroImages(updated);
     localStorage.setItem('hampers_hero_images', JSON.stringify(updated));
+    await fetch(`${API_BASE}/settings/hero_images`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated)
+    });
   };
 
   const handleResetHeroImages = () => {
@@ -62,9 +60,14 @@ export default function App() {
     return SERVICE_ITEMS;
   });
 
-  const handleSaveServiceItems = (updated: ServiceItem[]) => {
+  const handleSaveServiceItems = async (updated: ServiceItem[]) => {
     setServiceItems(updated);
     localStorage.setItem('hampers_service_catalog', JSON.stringify(updated));
+    await fetch(`${API_BASE}/settings/service_catalog`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated)
+    });
   };
 
   const handleResetServiceItems = () => {
@@ -82,9 +85,14 @@ export default function App() {
     return DEFAULT_CATALOGUE_ITEMS;
   });
 
-  const handleSaveCatalogueItems = (updated: CatalogueItem[]) => {
+  const handleSaveCatalogueItems = async (updated: CatalogueItem[]) => {
     setCatalogueItems(updated);
     localStorage.setItem('hampers_catalogue_items', JSON.stringify(updated));
+    await fetch(`${API_BASE}/settings/catalogue_items`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated)
+    });
   };
 
   const handleResetCatalogueItems = () => {
@@ -102,9 +110,14 @@ export default function App() {
     return DEFAULT_STORIES;
   });
 
-  const handleSaveStories = (updated: StoryItem[]) => {
+  const handleSaveStories = async (updated: StoryItem[]) => {
     setStories(updated);
     localStorage.setItem('hampers_curated_stories', JSON.stringify(updated));
+    await fetch(`${API_BASE}/settings/curated_stories`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated)
+    });
   };
 
   const handleResetStories = () => {
@@ -112,7 +125,28 @@ export default function App() {
     window.location.reload();
   };
 
+  const API_BASE = "http://localhost:3001/api";
+
   useEffect(() => {
+    const loadData = async () => {
+      try {
+        const heroRes = await fetch(`${API_BASE}/settings/hero_images`);
+        if (heroRes.ok) setHeroImages(await heroRes.json());
+
+        const serviceRes = await fetch(`${API_BASE}/settings/service_catalog`);
+        if (serviceRes.ok) setServiceItems(await serviceRes.json());
+
+        const catalogueRes = await fetch(`${API_BASE}/settings/catalogue_items`);
+        if (catalogueRes.ok) setCatalogueItems(await catalogueRes.json());
+
+        const storyRes = await fetch(`${API_BASE}/settings/curated_stories`);
+        if (storyRes.ok) setStories(await storyRes.json());
+      } catch (e) {
+        console.warn("Database fetch failed, using local storage/defaults", e);
+      }
+    };
+    
+    loadData();
     refreshSavedCount();
     const handleScrollVisibility = () => setShowScrollTop(window.scrollY > 400);
     window.addEventListener('scroll', handleScrollVisibility);
